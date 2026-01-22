@@ -356,19 +356,30 @@
       font-weight: 600;
     }
 
-    /* ================= AUX CARDS ================= */
+    /* ================= AUX CARDS GROUP ================= */
+    .aux-group {
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.4));
+      border-radius: 1.25rem;
+      border: 1px solid var(--border-color);
+      display: none;
+      /* Se muestra dinámicamente */
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(8px);
+    }
+
     .aux-subtitle {
       text-align: center;
       font-weight: 800;
-      color: var(--primary);
-      margin: 2rem 0 1rem;
-      font-size: 1.125rem;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      display: inline-block;
-      left: 50%;
-      position: relative;
-      transform: translateX(-50%);
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+      padding: 0.5rem 1.5rem;
+      background: rgba(56, 189, 248, 0.1);
+      border-radius: 99px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
     }
 
     #auxCardsContainer {
@@ -377,7 +388,6 @@
       justify-content: center;
       gap: 1rem;
       width: 100%;
-      margin-top: 1rem;
     }
 
     .aux-card {
@@ -561,8 +571,10 @@
         <div class="chart-card">
           <div class="card-title" id="cardTitle">Seleccione una red y un gráfico</div>
           <div id="chart_area">Cargando...</div>
-          <div id="auxSubtitle" class="aux-subtitle"></div>
-          <div id="auxCardsContainer"></div>
+          <div id="auxGroup" class="aux-group">
+            <div id="auxSubtitle" class="aux-subtitle"></div>
+            <div id="auxCardsContainer"></div>
+          </div>
           <div id="chartInfo" class="info"></div>
         </div>
       </div>
@@ -899,6 +911,7 @@
       const chartArea = document.getElementById('chart_area');
       const auxContainer = document.getElementById('auxCardsContainer');
       const subtitle = document.getElementById('auxSubtitle');
+      const auxGroup = document.getElementById('auxGroup');
 
       subtitle.textContent = '';
       if (!chartCfg) {
@@ -909,6 +922,7 @@
       document.getElementById('cardTitle').textContent = `${SHEETS[social].label} — ${chartCfg.label}`;
       infoDiv.textContent = '';
       auxContainer.innerHTML = '';
+      if (auxGroup) auxGroup.style.display = 'none';
 
       const gid = SHEETS[social].gid;
       const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${gid}&tqx=out:json&tq=${encodeURIComponent(chartCfg.query)}`;
@@ -1156,8 +1170,15 @@
     function updateAuxCardsByRow(row, dataTable, chartCfg) {
       const container = document.getElementById('auxCardsContainer');
       const subtitle = document.getElementById('auxSubtitle');
+      const auxGroup = document.getElementById('auxGroup');
+
       container.innerHTML = '';
-      if (!chartCfg.auxColumns || !chartCfg.auxColumns.length) return;
+      if (!chartCfg.auxColumns || !chartCfg.auxColumns.length) {
+        if (auxGroup) auxGroup.style.display = 'none';
+        return;
+      }
+
+      if (auxGroup) auxGroup.style.display = 'flex';
 
       const year = dataTable.getValue(row, 0);
       subtitle.textContent = `Detalle año: ${year}`;
