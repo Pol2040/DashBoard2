@@ -88,59 +88,151 @@
       border-radius: 2px;
     }
 
-    /* ================= CONTROLES ================= */
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      padding: 1.5rem 0;
+    /* ================= LAYOUT ================= */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
     }
 
-    @media (min-width: 640px) {
-      .controls {
-        grid-template-columns: 1fr 1fr;
-        justify-content: center;
-        align-items: center;
+    @media (min-width: 1024px) {
+      .app-layout {
+        flex-direction: row;
       }
     }
 
-    .control-group {
+    /* ================= SIDEBAR ================= */
+    .sidebar {
+      width: 100%;
+      background: var(--card-bg);
+      border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
+      z-index: 50;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar {
+        width: 300px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+      }
+    }
+
+    .sidebar-header {
+      padding: 2rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sidebar-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-section h3 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      padding-left: 0.5rem;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
     }
 
-    .controls label {
-      font-weight: 700;
-      color: var(--text-muted);
-      font-size: 0.875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.025em;
+    @media (min-width: 1024px) {
+      .nav-list {
+        flex-direction: column;
+      }
     }
 
-    .controls select {
+    .nav-item {
+      width: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .nav-item {
+        width: 100%;
+      }
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
       padding: 0.75rem 1rem;
-      border: 2px solid var(--border-color);
+      background: transparent;
+      border: 1px solid var(--border-color);
       border-radius: 0.75rem;
-      background: var(--card-bg);
       color: var(--text-main);
-      font-size: 1rem;
-      font-family: inherit;
+      font-size: 0.9375rem;
       font-weight: 600;
-      transition: var(--transition);
       cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      background-size: 1.25rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    .controls select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-      outline: none;
+    .nav-btn:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .nav-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg-color);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 1rem;
+      overflow-x: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .main-content {
+        padding: 2.5rem;
+      }
+    }
+
+    /* Mobile Toggle (Optional, can just keep it visible as header on small screens) */
+    .mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    @media (min-width: 1024px) {
+      .mobile-header {
+        display: none;
+      }
     }
 
     /* ================= CARD CONTENEDOR GRÁFICO ================= */
@@ -331,28 +423,37 @@
 
 <body>
 
-  <div class="dashboard-container">
-    <h1>Dashboard RRSS ObSBA</h1>
-
-    <div class="controls">
-      <div class="control-group">
-        <label for="socialSelect">Red social</label>
-        <select id="socialSelect"></select>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Dashboard ObSBA</h2>
       </div>
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <h3>Red Social</h3>
+          <ul id="socialNav" class="nav-list"></ul>
+        </div>
 
-      <div class="control-group">
-        <label for="chartSelect">Gráfico</label>
-        <select id="chartSelect"></select>
+        <div class="sidebar-section">
+          <h3>Gráfico</h3>
+          <ul id="chartNav" class="nav-list"></ul>
+        </div>
       </div>
-    </div>
+    </aside>
 
-    <div class="chart-card">
-      <div class="card-title" id="cardTitle">Seleccione una red y un gráfico</div>
-      <div id="chart_area">Cargando...</div>
-      <div id="auxSubtitle" class="aux-subtitle"></div>
-      <div id="auxCardsContainer"></div>
-      <div id="chartInfo" class="info"></div>
-    </div>
+    <main class="main-content">
+      <div class="dashboard-container">
+        <h1 id="pageHeading">Dashboard RRSS ObSBA</h1>
+
+        <div class="chart-card">
+          <div class="card-title" id="cardTitle">Seleccione una red y un gráfico</div>
+          <div id="chart_area">Cargando...</div>
+          <div id="auxSubtitle" class="aux-subtitle"></div>
+          <div id="auxCardsContainer"></div>
+          <div id="chartInfo" class="info"></div>
+        </div>
+      </div>
+    </main>
   </div>
 
 
@@ -566,26 +667,37 @@
 
     const COLORS = ['#38bdf8', '#818cf8', '#34d399', '#fbbf24', '#f87171', '#a78bfa', '#22d3ee', '#94a3b8'];
 
+    let currentSocial = "General";
+    let currentChart = "";
+
     /* ========== Inicializar Google Charts ========== */
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(initUI);
 
     function initUI() {
-      const socialSelect = document.getElementById('socialSelect');
-      const chartSelect = document.getElementById('chartSelect');
+      const socialNav = document.getElementById('socialNav');
 
+      socialNav.innerHTML = '';
       Object.keys(SHEETS).forEach(k => {
-        const opt = document.createElement('option');
-        opt.value = k;
-        opt.text = SHEETS[k].label || k;
-        socialSelect.appendChild(opt);
+        const li = document.createElement('li');
+        li.className = 'nav-item';
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.dataset.social = k;
+        btn.textContent = SHEETS[k].label || k;
+        btn.onclick = () => {
+          document.querySelectorAll('#socialNav .nav-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentSocial = k;
+          populateChartsFor(k);
+        };
+        li.appendChild(btn);
+        socialNav.appendChild(li);
+
+        if (k === currentSocial) btn.classList.add('active');
       });
 
-      socialSelect.addEventListener('change', () => populateChartsFor(socialSelect.value));
-      chartSelect.addEventListener('change', () => loadSelectedChart());
-
-      socialSelect.value = "General";
-      populateChartsFor("General");
+      populateChartsFor(currentSocial);
 
       // Redraw on resize
       window.addEventListener('resize', debounce(() => {
@@ -606,26 +718,41 @@
     }
 
     function populateChartsFor(socialKey) {
-      const chartSelect = document.getElementById('chartSelect');
-      chartSelect.innerHTML = '';
+      const chartNav = document.getElementById('chartNav');
+      chartNav.innerHTML = '';
 
       const charts = CHARTS_BY_SHEET[socialKey] || {};
-      Object.keys(charts).forEach(key => {
-        const opt = document.createElement('option');
-        opt.value = key;
-        opt.text = charts[key].label;
-        chartSelect.appendChild(opt);
+      const keys = Object.keys(charts);
+
+      keys.forEach((key, index) => {
+        const li = document.createElement('li');
+        li.className = 'nav-item';
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.dataset.chart = key;
+        btn.textContent = charts[key].label;
+        btn.onclick = () => {
+          document.querySelectorAll('#chartNav .nav-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentChart = key;
+          loadSelectedChart();
+        };
+        li.appendChild(btn);
+        chartNav.appendChild(li);
+
+        if (index === 0) {
+          btn.classList.add('active');
+          currentChart = key;
+        }
       });
 
-      const first = chartSelect.options[0]?.value;
-      if (first) chartSelect.value = first;
-      document.getElementById('cardTitle').textContent = `${SHEETS[socialKey].label} — ${charts[first]?.label || ''}`;
+      document.getElementById('cardTitle').textContent = `${SHEETS[socialKey].label} — ${charts[currentChart]?.label || ''}`;
       loadSelectedChart();
     }
 
     function loadSelectedChart() {
-      const social = document.getElementById('socialSelect').value;
-      const chartKey = document.getElementById('chartSelect').value;
+      const social = currentSocial;
+      const chartKey = currentChart;
       const chartCfg = CHARTS_BY_SHEET[social]?.[chartKey];
 
       const infoDiv = document.getElementById('chartInfo');
