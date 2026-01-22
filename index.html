@@ -1135,8 +1135,8 @@
       }
       function normalizeLink(v) {
         if (!v) return null;
-        if (typeof v === 'object' && v.v) return v.v;
-        if (typeof v === 'string' && v.startsWith('http')) return v;
+        if (typeof v === 'object' && v.v) v = v.v;
+        if (typeof v === 'string' && v.trim().length > 0) return v.trim();
         return null;
       }
 
