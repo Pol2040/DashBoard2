@@ -199,13 +199,13 @@
       .desktop-toggle {
         display: flex;
         position: fixed;
-        left: 1.5rem;
-        bottom: 1.5rem;
+        left: 1rem;
+        top: 1rem;
       }
 
       /* Shift toggle when sidebar is open if desired, or keep it floating */
       .sidebar.collapsed~.main-content .desktop-toggle {
-        left: 1.5rem;
+        left: 1rem;
       }
     }
 
@@ -523,8 +523,7 @@
     </button>
 
     <aside id="sidebar" class="sidebar">
-      <div class="sidebar-header">
-        <h2>Dashboard ObSBA</h2>
+      <div class="sidebar-header" style="justify-content: flex-end;">
         <button id="closeSidebar" class="toggle-btn" style="display: none;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
