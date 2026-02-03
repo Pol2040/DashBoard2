@@ -35,7 +35,27 @@
       --danger: #f43f5e;
       --border-color: #334155;
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --glass-bg: rgba(30, 41, 59, 0.4);
+      --glass-bg-alt: rgba(15, 23, 42, 0.4);
+    }
+
+    body.light-mode {
+      --primary: #1e293b;
+      --primary-hover: #0f172a;
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #0284c7;
+      --border-color: #cbd5e1;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-bg-alt: rgba(241, 245, 249, 0.7);
     }
 
     /* ================= ESTILO GENERAL ================= */
@@ -360,7 +380,7 @@
     .aux-group {
       margin-top: 2.5rem;
       padding: 1.5rem;
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.4));
+      background: linear-gradient(135deg, var(--glass-bg), var(--glass-bg-alt));
       border-radius: 1.25rem;
       border: 1px solid var(--border-color);
       display: none;
@@ -542,7 +562,25 @@
     </button>
 
     <aside id="sidebar" class="sidebar">
-      <div class="sidebar-header" style="justify-content: flex-end;">
+      <div class="sidebar-header">
+        <button id="themeToggle" class="toggle-btn" title="Cambiar modo">
+          <svg id="sunIcon" style="display: none;" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
         <button id="closeSidebar" class="toggle-btn" style="display: none;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
@@ -832,10 +870,41 @@
       desktopToggle.onclick = toggleSidebar;
       overlay.onclick = toggleSidebar;
 
+      // Theme toggle logic
+      const themeToggle = document.getElementById('themeToggle');
+      const sunIcon = document.getElementById('sunIcon');
+      const moonIcon = document.getElementById('moonIcon');
+
+      const applyTheme = (isLight) => {
+        if (isLight) {
+          document.body.classList.add('light-mode');
+          sunIcon.style.display = 'block';
+          moonIcon.style.display = 'none';
+        } else {
+          document.body.classList.remove('light-mode');
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+        }
+        // Redraw chart with new colors
+        loadSelectedChart();
+      };
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') applyTheme(true);
+
+      themeToggle.onclick = () => {
+        const isLight = document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        applyTheme(isLight);
+      };
+
       // Show close button on mobile only
       if (window.innerWidth < 1024) {
         closeSidebar.style.display = 'flex';
         closeSidebar.onclick = toggleSidebar;
+        themeToggle.style.marginRight = 'auto'; // Align theme toggle to left when close is visible
+      } else {
+        themeToggle.style.marginLeft = 'auto'; // Align theme toggle to right
       }
 
       socialNav.innerHTML = '';
@@ -1044,6 +1113,14 @@
 
     function buildOptions(title, seriesCount) {
       const isMobile = window.innerWidth < 768;
+      const isLight = document.body.classList.contains('light-mode');
+
+      const textColor = isLight ? '#1e293b' : '#94a3b8';
+      const secondaryTextColor = isLight ? '#64748b' : '#94a3b8';
+      const gridlineColor = isLight ? '#e2e8f0' : '#1e293b';
+      const baselineColor = isLight ? '#cbd5e1' : '#334155';
+      const annotationColor = isLight ? '#0f172a' : '#f1f5f9';
+
       return {
         title: '', // Remove internal title to use our own
         fontName: 'Open Sans',
@@ -1057,24 +1134,24 @@
         },
         legend: {
           position: isMobile ? 'top' : 'bottom',
-          textStyle: { fontSize: 12, color: '#94a3b8' },
+          textStyle: { fontSize: 12, color: secondaryTextColor },
           maxLines: 3
         },
         hAxis: {
-          textStyle: { fontSize: 11, color: '#94a3b8' },
+          textStyle: { fontSize: 11, color: secondaryTextColor },
           gridlines: { color: 'transparent' },
-          baselineColor: '#334155'
+          baselineColor: baselineColor
         },
         vAxis: {
-          textStyle: { fontSize: 11, color: '#94a3b8' },
-          gridlines: { color: '#1e293b' },
-          baselineColor: '#334155',
+          textStyle: { fontSize: 11, color: secondaryTextColor },
+          gridlines: { color: gridlineColor },
+          baselineColor: baselineColor,
           format: 'short'
         },
         animation: { startup: true, duration: 800, easing: 'out' },
         annotations: {
           alwaysOutside: true,
-          textStyle: { fontSize: isMobile ? 10 : 11, bold: true, color: '#f1f5f9' }
+          textStyle: { fontSize: isMobile ? 10 : 11, bold: true, color: annotationColor }
         },
         backgroundColor: 'transparent',
         bar: { groupWidth: isMobile ? '85%' : '75%' }
