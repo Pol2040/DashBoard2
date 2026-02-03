@@ -53,7 +53,7 @@
     .dashboard-container {
       max-width: 1600px;
       margin: 0 auto;
-      padding: 1rem;
+      padding: 0.5rem;
     }
 
     @media (min-width: 768px) {
@@ -297,7 +297,7 @@
 
     .main-content {
       flex: 1;
-      padding: 1rem;
+      padding: 0.5rem;
       overflow-x: hidden;
     }
 
@@ -498,6 +498,7 @@
     @media (max-width: 640px) {
       h1 {
         font-size: 1.5rem;
+        margin-bottom: 1rem;
       }
 
       .card-main {
@@ -506,6 +507,16 @@
 
       .aux-value {
         font-size: 1.25rem;
+      }
+
+      .chart-card {
+        margin-top: 0.5rem;
+        padding: 0.5rem 0;
+      }
+
+      .card-title {
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
       }
     }
 
@@ -1032,10 +1043,10 @@
         title: '', // Remove internal title to use our own
         fontName: 'Open Sans',
         chartArea: {
-          left: isMobile ? 40 : 80,
+          left: isMobile ? 30 : 80,
           top: 40,
-          right: isMobile ? 10 : 30,
-          bottom: isMobile ? 100 : 80,
+          right: isMobile ? 5 : 30,
+          bottom: isMobile ? 60 : 80,
           width: '100%',
           height: '100%'
         },
@@ -1058,10 +1069,10 @@
         animation: { startup: true, duration: 800, easing: 'out' },
         annotations: {
           alwaysOutside: true,
-          textStyle: { fontSize: 11, bold: true, color: '#f1f5f9' }
+          textStyle: { fontSize: isMobile ? 10 : 11, bold: true, color: '#f1f5f9' }
         },
         backgroundColor: 'transparent',
-        bar: { groupWidth: '75%' }
+        bar: { groupWidth: isMobile ? '85%' : '75%' }
       };
     }
 
