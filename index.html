@@ -546,9 +546,66 @@
       }
     }
 
-    /* Fix for Google Charts responsiveness */
-    rect[fill="#ffffff"] {
-      fill: transparent !important;
+    /* ================= FILTRO DE AÑOS ================= */
+    .filter-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .filter-item:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--border-color);
+    }
+
+    .filter-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid var(--border-color);
+      border-radius: 0.25rem;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .filter-item input[type="checkbox"]:checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .filter-item input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      color: var(--bg-color);
+      font-size: 0.875rem;
+      font-weight: 800;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .filter-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
     }
   </style>
 </head>
@@ -604,6 +661,11 @@
         <div class="sidebar-section">
           <h3>Gráfico</h3>
           <ul id="chartNav" class="nav-list"></ul>
+        </div>
+
+        <div id="yearFilterSection" class="sidebar-section" style="display: none;">
+          <h3 id="yearFilterTitle">Años</h3>
+          <ul id="yearFilterList" class="filter-list"></ul>
         </div>
       </div>
     </aside>
@@ -847,6 +909,9 @@
     let currentSocial = "General";
     let currentChart = "";
     let lastWidth = window.innerWidth;
+    let selectedFilters = new Set();
+    let currentData = null;
+    let currentChartCfg = null;
 
     /* ========== Inicializar Google Charts ========== */
     google.charts.load('current', { packages: ['corechart'] });
@@ -986,6 +1051,7 @@
       });
 
       document.getElementById('cardTitle').textContent = `${SHEETS[socialKey].label} — ${charts[currentChart]?.label || ''}`;
+      selectedFilters.clear(); // Reset filters when changing social/chart set
       loadSelectedChart();
     }
 
@@ -1011,6 +1077,7 @@
       auxContainer.innerHTML = '';
       if (auxGroup) auxGroup.style.display = 'none';
 
+      currentChartCfg = chartCfg;
       const gid = SHEETS[social].gid;
       const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${gid}&tqx=out:json&tq=${encodeURIComponent(chartCfg.query)}`;
 
@@ -1029,14 +1096,20 @@
           if (!json.table || !json.table.cols?.length) throw new Error('La hoja no devolvió columnas');
 
           const originalTable = new google.visualization.DataTable(json.table);
+          currentData = originalTable;
+
+          // Update filters UI if it's the first load for this chart
+          if (selectedFilters.size === 0) {
+            updateFilterUI(originalTable);
+          }
 
           if (chartCfg.chartType === 'Card') {
-            renderCards(originalTable, chartCfg.cardTemplate || 'topAnual');
+            renderCards(filterDataTable(originalTable), chartCfg.cardTemplate || 'topAnual');
             auxContainer.innerHTML = '';
             return;
           }
 
-          let dataTable = originalTable;
+          let dataTable = filterDataTable(originalTable);
           if (Array.isArray(chartCfg.chartColumns)) {
             dataTable = buildChartTable(originalTable, chartCfg.chartColumns);
           }
@@ -1108,13 +1181,182 @@
           });
 
           if (Array.isArray(chartCfg.auxColumns)) {
-            updateAuxCardsByRow(0, originalTable, chartCfg);
+            updateAuxCardsByRow(0, filterDataTable(originalTable), chartCfg);
           }
         })
         .catch(err => {
           chartArea.innerHTML = `<span style="color:var(--danger);font-weight:700;">Error: ${err.message}</span>`;
           console.error(err);
         });
+    }
+
+    function updateFilterUI(dataTable) {
+      const filterSection = document.getElementById('yearFilterSection');
+      const filterList = document.getElementById('yearFilterList');
+      const filterTitle = document.getElementById('yearFilterTitle');
+
+      filterList.innerHTML = '';
+      const colLabel = dataTable.getColumnLabel(0);
+      filterTitle.textContent = colLabel === 'Año' ? 'Años' : `Filtrar por ${colLabel}`;
+
+      const values = [];
+      for (let r = 0; r < dataTable.getNumberOfRows(); r++) {
+        const val = String(dataTable.getValue(r, 0));
+        if (!values.includes(val)) values.push(val);
+      }
+
+      if (values.length <= 1) {
+        filterSection.style.display = 'none';
+        return;
+      }
+
+      filterSection.style.display = 'block';
+      selectedFilters = new Set(values); // Default all selected
+
+      values.forEach(val => {
+        const li = document.createElement('li');
+        li.className = 'filter-item';
+
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = `filter_${val}`;
+        cb.checked = true;
+        cb.onchange = () => {
+          if (cb.checked) selectedFilters.add(val);
+          else selectedFilters.delete(val);
+          renderFilteredChart();
+        };
+
+        const label = document.createElement('label');
+        label.className = 'filter-label';
+        label.setAttribute('for', `filter_${val}`);
+        label.textContent = val;
+
+        li.appendChild(cb);
+        li.appendChild(label);
+        filterList.appendChild(li);
+      });
+    }
+
+    function filterDataTable(sourceTable) {
+      if (selectedFilters.size === 0) return sourceTable;
+
+      const view = new google.visualization.DataView(sourceTable);
+      const rows = [];
+      for (let r = 0; r < sourceTable.getNumberOfRows(); r++) {
+        if (selectedFilters.has(String(sourceTable.getValue(r, 0)))) {
+          rows.push(r);
+        }
+      }
+      view.setRows(rows);
+
+      // We need a DataTable, not a DataView, because some parts of code use getColumnLabel etc on it
+      // and others might need to add columns (like annotations)
+      const dt = new google.visualization.DataTable();
+      for (let c = 0; c < sourceTable.getNumberOfColumns(); c++) {
+        dt.addColumn(sourceTable.getColumnType(c), sourceTable.getColumnLabel(c));
+      }
+      for (let i = 0; i < rows.length; i++) {
+        const row = [];
+        for (let c = 0; c < sourceTable.getNumberOfColumns(); c++) {
+          row.push(sourceTable.getValue(rows[i], c));
+        }
+        dt.addRow(row);
+      }
+      return dt;
+    }
+
+    function renderFilteredChart() {
+      if (!currentData || !currentChartCfg) return;
+
+      const chartCfg = currentChartCfg;
+      const originalTable = currentData;
+      const chartArea = document.getElementById('chart_area');
+      const auxContainer = document.getElementById('auxCardsContainer');
+      const auxGroup = document.getElementById('auxGroup');
+
+      if (chartCfg.chartType === 'Card') {
+        renderCards(filterDataTable(originalTable), chartCfg.cardTemplate || 'topAnual');
+        return;
+      }
+
+      let dataTable = filterDataTable(originalTable);
+
+      if (Array.isArray(chartCfg.chartColumns)) {
+        dataTable = buildChartTable(dataTable, chartCfg.chartColumns);
+      }
+
+      if (dataTable.getNumberOfRows() > 0 && dataTable.getColumnType(0) === 'number') {
+        const forced = new google.visualization.DataTable();
+        forced.addColumn('string', dataTable.getColumnLabel(0));
+        for (let c = 1; c < dataTable.getNumberOfColumns(); c++) {
+          forced.addColumn(dataTable.getColumnType(c), dataTable.getColumnLabel(c));
+        }
+        for (let r = 0; r < dataTable.getNumberOfRows(); r++) {
+          const row = [String(dataTable.getValue(r, 0))];
+          for (let c = 1; c < dataTable.getNumberOfColumns(); c++) {
+            row.push(dataTable.getValue(r, c));
+          }
+          forced.addRow(row);
+        }
+        dataTable = forced;
+      }
+
+      const annotated = new google.visualization.DataTable();
+      annotated.addColumn(dataTable.getColumnType(0), dataTable.getColumnLabel(0));
+      for (let c = 1; c < dataTable.getNumberOfColumns(); c++) {
+        const type = dataTable.getColumnType(c);
+        annotated.addColumn(type, dataTable.getColumnLabel(c));
+        if (type === 'number') annotated.addColumn({ type: 'string', role: 'annotation' });
+      }
+
+      for (let r = 0; r < dataTable.getNumberOfRows(); r++) {
+        const row = [dataTable.getValue(r, 0)];
+        for (let c = 1; c < dataTable.getNumberOfColumns(); c++) {
+          const v = dataTable.getValue(r, c);
+          const isNumber = dataTable.getColumnType(c) === 'number';
+          const formatted = (v != null && !isNaN(v) && isNumber)
+            ? v.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : (v != null ? v.toString() : '');
+
+          row.push({ v: v, f: formatted });
+          if (isNumber) {
+            row.push(formatted);
+          }
+        }
+        annotated.addRow(row);
+      }
+
+      dataTable = annotated;
+      const options = buildOptions(chartCfg.label, dataTable.getNumberOfColumns() - 1);
+
+      let chartObj;
+      switch (chartCfg.chartType) {
+        case 'LineChart': chartObj = new google.visualization.LineChart(chartArea); break;
+        case 'BarChart': chartObj = new google.visualization.BarChart(chartArea); break;
+        default: chartObj = new google.visualization.ColumnChart(chartArea);
+      }
+
+      let seriesCount = 0;
+      for (let c = 0; c < dataTable.getNumberOfColumns(); c++) {
+        if (dataTable.getColumnType(c) === 'number') seriesCount++;
+      }
+
+      options.colors = COLORS.slice(0, seriesCount);
+      chartObj.draw(dataTable, options);
+
+      google.visualization.events.addListener(chartObj, 'select', () => {
+        const selection = chartObj.getSelection();
+        if (!selection.length) return;
+        const row = selection[0].row;
+        // Need to use the filtered table to find the correct data from originalTable
+        // or just pass the filtered row data
+        updateAuxCardsByRow(row, filterDataTable(originalTable), chartCfg);
+      });
+
+      if (Array.isArray(chartCfg.auxColumns)) {
+        updateAuxCardsByRow(0, filterDataTable(originalTable), chartCfg);
+      }
     }
 
     function buildOptions(title, seriesCount) {
@@ -1273,7 +1515,7 @@
       const auxGroup = document.getElementById('auxGroup');
 
       container.innerHTML = '';
-      if (!chartCfg.auxColumns || !chartCfg.auxColumns.length) {
+      if (!chartCfg.auxColumns || !chartCfg.auxColumns.length || dataTable.getNumberOfRows() === 0) {
         if (auxGroup) auxGroup.style.display = 'none';
         return;
       }
