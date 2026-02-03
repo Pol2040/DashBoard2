@@ -994,9 +994,14 @@
             const row = [dataTable.getValue(r, 0)];
             for (let c = 1; c < dataTable.getNumberOfColumns(); c++) {
               const v = dataTable.getValue(r, c);
-              row.push(v);
-              if (dataTable.getColumnType(c) === 'number') {
-                row.push(v != null && !isNaN(v) ? v.toLocaleString('es-ES', { maximumFractionDigits: 2 }) : '');
+              const isNumber = dataTable.getColumnType(c) === 'number';
+              const formatted = (v != null && !isNaN(v) && isNumber)
+                ? v.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                : (v != null ? v.toString() : '');
+
+              row.push({ v: v, f: formatted });
+              if (isNumber) {
+                row.push(formatted);
               }
             }
             annotated.addRow(row);
@@ -1199,7 +1204,7 @@
         const label = dataTable.getColumnLabel(colIndex);
         let value = dataTable.getValue(row, colIndex);
         if (value === null || value === undefined) return;
-        if (!isNaN(value)) value = Number(value).toLocaleString('es-ES', { maximumFractionDigits: 2 });
+        if (!isNaN(value)) value = Number(value).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
         const card = document.createElement('div');
         card.className = 'aux-card';
