@@ -1039,6 +1039,7 @@
           document.querySelectorAll('#chartNav .nav-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           currentChart = key;
+          selectedFilters.clear(); // Clear filters when changing chart
           loadSelectedChart();
         };
         li.appendChild(btn);
@@ -1196,6 +1197,21 @@
       const filterTitle = document.getElementById('yearFilterTitle');
 
       filterList.innerHTML = '';
+
+      const label = currentChartCfg?.label || '';
+      // Normalización para comparar (sin puntos, todo a minúsculas, etc)
+      const normalizedLabel = label.toLowerCase();
+      const isAllowed = normalizedLabel.includes("tasa de compromiso total") ||
+        normalizedLabel.includes("tasa de compromiso por bimestres") ||
+        normalizedLabel.includes("por tipo de publicación") ||
+        normalizedLabel.includes("tc por año y tipo");
+
+      if (!isAllowed) {
+        filterSection.style.display = 'none';
+        selectedFilters.clear();
+        return;
+      }
+
       const colLabel = dataTable.getColumnLabel(0);
       filterTitle.textContent = colLabel === 'Año' ? 'Años' : `Filtrar por ${colLabel}`;
 
