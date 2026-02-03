@@ -791,6 +791,7 @@
 
     let currentSocial = "General";
     let currentChart = "";
+    let lastWidth = window.innerWidth;
 
     /* ========== Inicializar Google Charts ========== */
     google.charts.load('current', { packages: ['corechart'] });
@@ -848,9 +849,12 @@
 
       populateChartsFor(currentSocial);
 
-      // Redraw on resize
+      // Redraw on resize only if width changed (to avoid issues on mobile scroll)
       window.addEventListener('resize', debounce(() => {
-        loadSelectedChart();
+        if (window.innerWidth !== lastWidth) {
+          lastWidth = window.innerWidth;
+          loadSelectedChart();
+        }
       }, 250));
     }
 
