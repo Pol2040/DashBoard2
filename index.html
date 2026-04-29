@@ -767,9 +767,18 @@
         },
         "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
-          query: `SELECT AB, AC, AE, AF, AH, AI, AK WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL OR AI IS NOT NULL OR AK IS NOT NULL) LABEL AB "Bimestre"`,
-          chartType: 'Card',
-          cardTemplate: 'topBimestral'
+          years: {
+            "2025": {
+              query: `SELECT AB, AC, AE, AF, AH, AI, AK WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL OR AI IS NOT NULL OR AK IS NOT NULL) LABEL AB "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            },
+            "2026": {
+              query: `SELECT AT, AU, AW, AX, AZ, BA, BC WHERE AT IS NOT NULL AND (AU IS NOT NULL OR AW IS NOT NULL OR AX IS NOT NULL OR AZ IS NOT NULL OR BA IS NOT NULL OR BC IS NOT NULL) LABEL AT "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            }
+          }
         }
       },
       "Facebook": {
@@ -792,9 +801,18 @@
         },
         "Top_Anual": { //AA
           label: "Top publicaciones anuales",
-          query: `SELECT T, U, V, W, X, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Z IS NOT NULL) LABEL T "Top"`,
-          chartType: 'Card',
-          cardTemplate: 'topAnual'
+          years: {
+            "2025": {
+              query: `SELECT T, U, V, W, X, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Z IS NOT NULL) LABEL T "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            },
+            "2026": {
+              query: `SELECT AM, AN, AO, AP, AQ, AT WHERE AM IS NOT NULL AND (AN IS NOT NULL OR AO IS NOT NULL OR AP IS NOT NULL OR AQ IS NOT NULL OR AT IS NOT NULL) LABEL AM "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            }
+          }
         },
         "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
@@ -831,9 +849,18 @@
         },
         "Top_Anual": { //AA
           label: "Top publicaciones anuales",
-          query: `SELECT AA, AB, AC, AD, AE, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AG IS NOT NULL) LABEL AA "Top"`,
-          chartType: 'Card',
-          cardTemplate: 'topAnual'
+          years: {
+            "2025": {
+              query: `SELECT AA, AB, AC, AD, AE, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AG IS NOT NULL) LABEL AA "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            },
+            "2026": {
+              query: `SELECT AS, AT, AU, AV, AW, AY WHERE AS IS NOT NULL AND (AT IS NOT NULL OR AU IS NOT NULL OR AV IS NOT NULL OR AW IS NOT NULL OR AY IS NOT NULL) LABEL AS "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            }
+          }
         },
         "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
@@ -867,9 +894,18 @@
         },
         "Top_Anual": { //AA
           label: "Top publicaciones anuales",
-          query: `SELECT AB, AC, AD, AE, AF, AH WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL) LABEL AB "Top"`,
-          chartType: 'Card',
-          cardTemplate: 'topAnual'
+          years: {
+            "2025": {
+              query: `SELECT AB, AC, AD, AE, AF, AH WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL) LABEL AB "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            },
+            "2026": {
+              query: `SELECT AT, AU, AV, AW, AX, AZ WHERE AT IS NOT NULL AND (AU IS NOT NULL OR AV IS NOT NULL OR AW IS NOT NULL OR AX IS NOT NULL OR AZ IS NOT NULL) LABEL AT "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            }
+          }
         },
         "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
@@ -920,9 +956,18 @@
         },
         "Top_Anual": {
           label: "Top publicaciones anuales",
-          query: `SELECT AI, AJ, AK, AL, AM, AO WHERE AI IS NOT NULL AND (AJ IS NOT NULL OR AK IS NOT NULL OR AL IS NOT NULL OR AM IS NOT NULL OR AO IS NOT NULL) LABEL AI "Top"`,
-          chartType: 'Card',
-          cardTemplate: 'topAnual'
+          years: {
+            "2025": {
+              query: `SELECT AI, AJ, AK, AL, AM, AO WHERE AI IS NOT NULL AND (AJ IS NOT NULL OR AK IS NOT NULL OR AL IS NOT NULL OR AM IS NOT NULL OR AO IS NOT NULL) LABEL AI "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            },
+            "2026": {
+              query: `SELECT BA, BB, BC, BD, BE, BG WHERE BA IS NOT NULL AND (BB IS NOT NULL OR BC IS NOT NULL OR BD IS NOT NULL OR BE IS NOT NULL OR BG IS NOT NULL) LABEL BA "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            }
+          }
         },
         "Top_Bimestral": {
           label: "Top publicaciones Bimestrales",
