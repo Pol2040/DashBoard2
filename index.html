@@ -674,9 +674,7 @@
 
         <div id="yearSelectorSection" class="sidebar-section" style="display: none;">
           <h3>Seleccionar Año</h3>
-          <select id="yearSelector" class="nav-btn"
-            style="width: 100%; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C/polyline%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;">
-          </select>
+          <ul id="yearButtonList" class="nav-list"></ul>
         </div>
 
         <div id="yearFilterSection" class="sidebar-section" style="display: none;">
@@ -1027,14 +1025,7 @@
         li.appendChild(btn);
         socialNav.appendChild(li);
 
-        if (k === currentSocial) btn.classList.add('active');
       });
-
-      // Year selector event
-      document.getElementById('yearSelector').onchange = (e) => {
-        currentYear = e.target.value;
-        loadSelectedChart();
-      };
 
       populateChartsFor(currentSocial);
 
@@ -1127,7 +1118,6 @@
           currentYear = Object.keys(chartCfg.years)[0];
         }
         activeCfg = { ...chartCfg, ...chartCfg.years[currentYear] };
-        document.getElementById('yearSelector').value = currentYear;
       }
 
       const gid = SHEETS[social].gid;
@@ -1244,7 +1234,7 @@
 
     function updateYearSelectorUI(chartCfg) {
       const yearSection = document.getElementById('yearSelectorSection');
-      const yearSelector = document.getElementById('yearSelector');
+      const yearButtonList = document.getElementById('yearButtonList');
 
       if (!chartCfg.years) {
         yearSection.style.display = 'none';
@@ -1252,19 +1242,28 @@
       }
 
       yearSection.style.display = 'block';
-      yearSelector.innerHTML = '';
-
-      Object.keys(chartCfg.years).forEach(y => {
-        const opt = document.createElement('option');
-        opt.value = y;
-        opt.textContent = y;
-        yearSelector.appendChild(opt);
-      });
+      yearButtonList.innerHTML = '';
 
       if (!currentYear || !chartCfg.years[currentYear]) {
         currentYear = Object.keys(chartCfg.years)[0];
       }
-      yearSelector.value = currentYear;
+
+      Object.keys(chartCfg.years).forEach(y => {
+        const li = document.createElement('li');
+        li.className = 'nav-item';
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        if (y === currentYear) btn.classList.add('active');
+        btn.textContent = y;
+        btn.onclick = () => {
+          document.querySelectorAll('#yearButtonList .nav-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentYear = y;
+          loadSelectedChart();
+        };
+        li.appendChild(btn);
+        yearButtonList.appendChild(li);
+      });
     }
 
     function updateFilterUI(dataTable) {
