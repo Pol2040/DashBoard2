@@ -308,6 +308,15 @@
       gap: 0.75rem;
     }
 
+    select.nav-btn {
+      cursor: pointer;
+    }
+
+    select.nav-btn option {
+      background: var(--card-bg);
+      color: var(--text-main);
+    }
+
     .nav-btn:hover {
       background: rgba(56, 189, 248, 0.1);
       border-color: var(--accent);
@@ -663,6 +672,13 @@
           <ul id="chartNav" class="nav-list"></ul>
         </div>
 
+        <div id="yearSelectorSection" class="sidebar-section" style="display: none;">
+          <h3>Seleccionar Año</h3>
+          <select id="yearSelector" class="nav-btn"
+            style="width: 100%; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C/polyline%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;">
+          </select>
+        </div>
+
         <div id="yearFilterSection" class="sidebar-section" style="display: none;">
           <h3 id="yearFilterTitle">Años</h3>
           <ul id="yearFilterList" class="filter-list"></ul>
@@ -700,7 +716,7 @@
     /* ========== CONFIG: GIDs y mapeo de gráficos ========== */
     const SHEET_ID = '17nld9mh3PtcOSPkKU2VxFGIkUD3w8IaZ1VyuR2XhtN8';
 
-    const SHEETS = {
+    const SHEETS = { //AA
       "General": { gid: "936287352", label: "HomePage" },
       "Instagram": { gid: "2147310482", label: "Instagram" },
       "Facebook": { gid: "708910305", label: "Facebook" },
@@ -726,7 +742,7 @@
           auxColumns: [4, 5, 6, 7]
         },
         "bimestral": {
-          label: "Tasa de compromiso por bimestres",
+          label: "Tasa de compromiso por bimestres", //AA
           query: `SELECT M, N, O, P, Q, R, S WHERE M IS NOT NULL AND (N IS NOT NULL OR O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL) LABEL M "Año"`,
           chartType: 'ColumnChart'
         },
@@ -735,13 +751,13 @@
           query: `SELECT J, K, L WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL) LABEL J "Año"`,
           chartType: 'ColumnChart'
         },
-        "Top_Anual": {
+        "Top_Anual": { //AA
           label: "Top publicaciones anuales",
           query: `SELECT U, V, W, X, Y, AA WHERE U IS NOT NULL AND (V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR AA IS NOT NULL) LABEL U "Top"`,
           chartType: 'Card',
           cardTemplate: 'topAnual'
         },
-        "Top_Bimestral": {
+        "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
           query: `SELECT AB, AC, AE, AF, AH, AI, AK WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL OR AI IS NOT NULL OR AK IS NOT NULL) LABEL AB "Bimestre"`,
           chartType: 'Card',
@@ -766,13 +782,13 @@
           query: `SELECT I, J, K, L WHERE I IS NOT NULL AND (J IS NOT NULL OR K IS NOT NULL OR L IS NOT NULL) LABEL I "Año"`,
           chartType: 'ColumnChart'
         },
-        "Top_Anual": {
+        "Top_Anual": { //AA
           label: "Top publicaciones anuales",
           query: `SELECT T, U, V, W, X, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Z IS NOT NULL) LABEL T "Top"`,
           chartType: 'Card',
           cardTemplate: 'topAnual'
         },
-        "Top_Bimestral": {
+        "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
           query: `SELECT AB, AC, AE, AF, AH, AI, AK WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL OR AI IS NOT NULL OR AK IS NOT NULL) LABEL AB "Bimestre"`,
           chartType: 'Card',
@@ -788,27 +804,30 @@
           auxColumns: [4, 5, 6, 7]
         },
         "bimestral": {
-          label: "Tasa de compromiso por bimestres",
-          query: `SELECT N, O, P, Q, R, S, T WHERE N IS NOT NULL AND (O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL OR T IS NOT NULL) LABEL N 'Bimestre'`,
-          chartType: 'ColumnChart'
-        },
-        "bimestres_tipo_2025": {
-          label: "2025: TC por bimestres y tipo",
-          query: `SELECT V, W, X WHERE V IS NOT NULL AND (W IS NOT NULL OR X IS NOT NULL) LABEL V 'Bimestre'`,
-          chartType: 'ColumnChart'
+          label: "Tasa de compromiso por bimestres", //AA
+          years: {
+            "2024": {
+              query: `SELECT N, O, P, Q, R, S, T WHERE N IS NOT NULL AND (O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL OR T IS NOT NULL) LABEL N 'Bimestre'`,
+              chartType: 'ColumnChart'
+            },
+            "2025": {
+              query: `SELECT V, W, X WHERE V IS NOT NULL AND (W IS NOT NULL OR X IS NOT NULL) LABEL V 'Bimestre'`,
+              chartType: 'ColumnChart'
+            }
+          }
         },
         "tipo_por_anio": {
           label: "TC por año y tipo",
           query: `SELECT J, K, L WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL) LABEL J 'Año'`,
           chartType: 'ColumnChart'
         },
-        "Top_Anual": {
+        "Top_Anual": { //AA
           label: "Top publicaciones anuales",
           query: `SELECT AA, AB, AC, AD, AE, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AG IS NOT NULL) LABEL AA "Top"`,
           chartType: 'Card',
           cardTemplate: 'topAnual'
         },
-        "Top_Bimestral": {
+        "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
           query: `SELECT AH, AI, AK, AL, AN, AO, AQ WHERE AH IS NOT NULL AND (AI IS NOT NULL OR AK IS NOT NULL OR AL IS NOT NULL OR AN IS NOT NULL OR AO IS NOT NULL OR AQ IS NOT NULL) LABEL AH "Bimestre"`,
           chartType: 'Card',
@@ -838,13 +857,13 @@
           query: `SELECT J, K, L, M WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL OR M IS NOT NULL) LABEL J 'Año'`,
           chartType: 'ColumnChart'
         },
-        "Top_Anual": {
+        "Top_Anual": { //AA
           label: "Top publicaciones anuales",
           query: `SELECT AB, AC, AD, AE, AF, AH WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL) LABEL AB "Top"`,
           chartType: 'Card',
           cardTemplate: 'topAnual'
         },
-        "Top_Bimestral": {
+        "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
           query: `SELECT AI, AJ, AL, AM, AO, AP, AR WHERE AI IS NOT NULL AND (AJ IS NOT NULL OR AL IS NOT NULL OR AM IS NOT NULL OR AO IS NOT NULL OR AP IS NOT NULL OR AR IS NOT NULL) LABEL AI "Bimestre"`,
           chartType: 'Card',
@@ -860,9 +879,21 @@
           auxColumns: [3, 4, 5, 6]
         },
         "bimestral": {
-          label: "Tasa de compromiso total. Por bimestres",
-          query: `SELECT T, U, V, W, X, Y, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR Z IS NOT NULL) LABEL T 'Bimestre'`,
-          chartType: 'ColumnChart'
+          label: "Tasa de compromiso por bimestres", //AA
+          years: {
+            "2024": {
+              query: `SELECT T, U, V, W, X, Y, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR Z IS NOT NULL) LABEL T 'Bimestre'`,
+              chartType: 'ColumnChart'
+            },
+            "2025": {
+              query: `SELECT Q, R, S WHERE Q IS NOT NULL AND (R IS NOT NULL OR S IS NOT NULL) LABEL Q 'Bimestre'`,
+              chartType: 'ColumnChart'
+            },
+            "Shorts (2025)": {
+              query: `SELECT AA, AB, AC, AD, AE, AF, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AG IS NOT NULL) LABEL AA 'Bimestre'`,
+              chartType: 'ColumnChart'
+            }
+          }
         },
         "tc_shorts_anual": {
           label: "Tasa de compromiso en SHORTS",
@@ -874,19 +905,9 @@
           query: `SELECT N, O, P WHERE N IS NOT NULL AND (O IS NOT NULL OR P IS NOT NULL) LABEL N 'Año'`,
           chartType: 'ColumnChart'
         },
-        "tc_shorts_bimestral": {
-          label: "Tasa de compromiso en SHORTS. Por bimestres",
-          query: `SELECT AA, AB, AC, AD, AE, AF, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AG IS NOT NULL) LABEL AA 'Bimestre'`,
-          chartType: 'ColumnChart'
-        },
         "tipo_x_anio": {
           label: "Tasa de compromiso total por tipo de publicación",
           query: `SELECT K, L, M WHERE K IS NOT NULL AND (L IS NOT NULL OR M IS NOT NULL) LABEL K 'Año'`,
-          chartType: 'ColumnChart'
-        },
-        "tc_2025_bimestres_tipo": {
-          label: "Tasa de compromiso 2025. Por bimestres",
-          query: `SELECT Q, R, S WHERE Q IS NOT NULL AND (R IS NOT NULL OR S IS NOT NULL) LABEL Q 'Bimestre'`,
           chartType: 'ColumnChart'
         },
         "Top_Anual": {
@@ -908,6 +929,7 @@
 
     let currentSocial = "General";
     let currentChart = "";
+    let currentYear = "";
     let lastWidth = window.innerWidth;
     let selectedFilters = new Set();
     let currentData = null;
@@ -998,6 +1020,12 @@
         if (k === currentSocial) btn.classList.add('active');
       });
 
+      // Year selector event
+      document.getElementById('yearSelector').onchange = (e) => {
+        currentYear = e.target.value;
+        loadSelectedChart();
+      };
+
       populateChartsFor(currentSocial);
 
       // Redraw on resize only if width changed (to avoid issues on mobile scroll)
@@ -1040,6 +1068,7 @@
           btn.classList.add('active');
           currentChart = key;
           selectedFilters.clear(); // Clear filters when changing chart
+          updateYearSelectorUI(charts[key]); // Update year selector if needed
           loadSelectedChart();
         };
         li.appendChild(btn);
@@ -1048,6 +1077,7 @@
         if (index === 0) {
           btn.classList.add('active');
           currentChart = key;
+          updateYearSelectorUI(charts[key]);
         }
       });
 
@@ -1079,8 +1109,19 @@
       if (auxGroup) auxGroup.style.display = 'none';
 
       currentChartCfg = chartCfg;
+
+      // Handle yearly configuration
+      let activeCfg = chartCfg;
+      if (chartCfg.years) {
+        if (!currentYear || !chartCfg.years[currentYear]) {
+          currentYear = Object.keys(chartCfg.years)[0];
+        }
+        activeCfg = { ...chartCfg, ...chartCfg.years[currentYear] };
+        document.getElementById('yearSelector').value = currentYear;
+      }
+
       const gid = SHEETS[social].gid;
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${gid}&tqx=out:json&tq=${encodeURIComponent(chartCfg.query)}`;
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${gid}&tqx=out:json&tq=${encodeURIComponent(activeCfg.query)}`;
 
       chartArea.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:200px">Cargando datos...</div>';
 
@@ -1104,15 +1145,15 @@
             updateFilterUI(originalTable);
           }
 
-          if (chartCfg.chartType === 'Card') {
-            renderCards(filterDataTable(originalTable), chartCfg.cardTemplate || 'topAnual');
+          if (activeCfg.chartType === 'Card') {
+            renderCards(filterDataTable(originalTable), activeCfg.cardTemplate || 'topAnual');
             auxContainer.innerHTML = '';
             return;
           }
 
           let dataTable = filterDataTable(originalTable);
-          if (Array.isArray(chartCfg.chartColumns)) {
-            dataTable = buildChartTable(originalTable, chartCfg.chartColumns);
+          if (Array.isArray(activeCfg.chartColumns)) {
+            dataTable = buildChartTable(originalTable, activeCfg.chartColumns);
           }
 
           if (dataTable.getNumberOfRows() > 0 && dataTable.getColumnType(0) === 'number') {
@@ -1181,14 +1222,39 @@
             updateAuxCardsByRow(row, originalTable, chartCfg);
           });
 
-          if (Array.isArray(chartCfg.auxColumns)) {
-            updateAuxCardsByRow(0, filterDataTable(originalTable), chartCfg);
+          if (Array.isArray(activeCfg.auxColumns)) {
+            updateAuxCardsByRow(0, filterDataTable(originalTable), activeCfg);
           }
         })
         .catch(err => {
           chartArea.innerHTML = `<span style="color:var(--danger);font-weight:700;">Error: ${err.message}</span>`;
           console.error(err);
         });
+    }
+
+    function updateYearSelectorUI(chartCfg) {
+      const yearSection = document.getElementById('yearSelectorSection');
+      const yearSelector = document.getElementById('yearSelector');
+
+      if (!chartCfg.years) {
+        yearSection.style.display = 'none';
+        return;
+      }
+
+      yearSection.style.display = 'block';
+      yearSelector.innerHTML = '';
+
+      Object.keys(chartCfg.years).forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        yearSelector.appendChild(opt);
+      });
+
+      if (!currentYear || !chartCfg.years[currentYear]) {
+        currentYear = Object.keys(chartCfg.years)[0];
+      }
+      yearSelector.value = currentYear;
     }
 
     function updateFilterUI(dataTable) {
@@ -1286,20 +1352,30 @@
       if (!currentData || !currentChartCfg) return;
 
       const chartCfg = currentChartCfg;
+
+      // Handle yearly configuration
+      let activeCfg = chartCfg;
+      if (chartCfg.years) {
+        if (!currentYear || !chartCfg.years[currentYear]) {
+          currentYear = Object.keys(chartCfg.years)[0];
+        }
+        activeCfg = { ...chartCfg, ...chartCfg.years[currentYear] };
+      }
+
       const originalTable = currentData;
       const chartArea = document.getElementById('chart_area');
       const auxContainer = document.getElementById('auxCardsContainer');
       const auxGroup = document.getElementById('auxGroup');
 
-      if (chartCfg.chartType === 'Card') {
-        renderCards(filterDataTable(originalTable), chartCfg.cardTemplate || 'topAnual');
+      if (activeCfg.chartType === 'Card') {
+        renderCards(filterDataTable(originalTable), activeCfg.cardTemplate || 'topAnual');
         return;
       }
 
       let dataTable = filterDataTable(originalTable);
 
-      if (Array.isArray(chartCfg.chartColumns)) {
-        dataTable = buildChartTable(dataTable, chartCfg.chartColumns);
+      if (Array.isArray(activeCfg.chartColumns)) {
+        dataTable = buildChartTable(dataTable, activeCfg.chartColumns);
       }
 
       if (dataTable.getNumberOfRows() > 0 && dataTable.getColumnType(0) === 'number') {
@@ -1344,10 +1420,10 @@
       }
 
       dataTable = annotated;
-      const options = buildOptions(chartCfg.label, dataTable.getNumberOfColumns() - 1);
+      const options = buildOptions(activeCfg.label, dataTable.getNumberOfColumns() - 1);
 
       let chartObj;
-      switch (chartCfg.chartType) {
+      switch (activeCfg.chartType) {
         case 'LineChart': chartObj = new google.visualization.LineChart(chartArea); break;
         case 'BarChart': chartObj = new google.visualization.BarChart(chartArea); break;
         default: chartObj = new google.visualization.ColumnChart(chartArea);
@@ -1367,11 +1443,11 @@
         const row = selection[0].row;
         // Need to use the filtered table to find the correct data from originalTable
         // or just pass the filtered row data
-        updateAuxCardsByRow(row, filterDataTable(originalTable), chartCfg);
+        updateAuxCardsByRow(row, filterDataTable(originalTable), activeCfg);
       });
 
-      if (Array.isArray(chartCfg.auxColumns)) {
-        updateAuxCardsByRow(0, filterDataTable(originalTable), chartCfg);
+      if (Array.isArray(activeCfg.auxColumns)) {
+        updateAuxCardsByRow(0, filterDataTable(originalTable), activeCfg);
       }
     }
 
@@ -1524,6 +1600,7 @@
     </div>
   `;
     }
+
 
     function updateAuxCardsByRow(row, dataTable, chartCfg) {
       const container = document.getElementById('auxCardsContainer');
