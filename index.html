@@ -950,21 +950,19 @@
           auxColumns: [3, 4, 5, 6]
         },
         "bimestral": {
-          label: "Tasa de compromiso por bimestres", //AA
-          years: {
-            "2024": {
-              query: `SELECT T, U, V, W, X, Y, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR Z IS NOT NULL) LABEL T 'Bimestre'`,
-              chartType: 'ColumnChart'
-            },
-            "2025": {
-              query: `SELECT Q, R, S WHERE Q IS NOT NULL AND (R IS NOT NULL OR S IS NOT NULL) LABEL Q 'Bimestre'`,
-              chartType: 'ColumnChart'
-            },
-            "Shorts (2025)": {
-              query: `SELECT AA, AB, AC, AD, AE, AF, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AG IS NOT NULL) LABEL AA 'Bimestre'`,
-              chartType: 'ColumnChart'
-            }
-          }
+          label: "Tasa de compromiso total. Por bimestres",
+          query: `SELECT T, U, V, W, X, Y, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR Z IS NOT NULL) LABEL T 'Bimestre'`,
+          chartType: 'ColumnChart'
+        },
+        "tc_shorts_bimestral": {
+          label: "Tasa de compromiso en SHORTS. Por bimestres",
+          query: `SELECT AA, AB, AC, AD, AE, AF, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AG IS NOT NULL) LABEL AA 'Bimestre'`,
+          chartType: 'ColumnChart'
+        },
+        "tc_2025_bimestres_tipo": {
+          label: "Tasa de compromiso 2025. Por bimestres",
+          query: `SELECT Q, R, S WHERE Q IS NOT NULL AND (R IS NOT NULL OR S IS NOT NULL) LABEL Q 'Bimestre'`,
+          chartType: 'ColumnChart'
         },
         "tc_shorts_anual": {
           label: "Tasa de compromiso en SHORTS",
