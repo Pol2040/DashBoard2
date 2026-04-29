@@ -808,7 +808,7 @@
               cardTemplate: 'topAnual'
             },
             "2026": {
-              query: `SELECT AM, AN, AO, AP, AQ, AT WHERE AM IS NOT NULL AND (AN IS NOT NULL OR AO IS NOT NULL OR AP IS NOT NULL OR AQ IS NOT NULL OR AT IS NOT NULL) LABEL AM "Top"`,
+              query: `SELECT AM, AN, AO, AP, AQ, AS WHERE AM IS NOT NULL AND (AN IS NOT NULL OR AO IS NOT NULL OR AP IS NOT NULL OR AQ IS NOT NULL OR AS IS NOT NULL) LABEL AM "Top"`,
               chartType: 'Card',
               cardTemplate: 'topAnual'
             }
@@ -816,9 +816,18 @@
         },
         "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
-          query: `SELECT AB, AC, AE, AF, AH, AI, AK WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL OR AI IS NOT NULL OR AK IS NOT NULL) LABEL AB "Bimestre"`,
-          chartType: 'Card',
-          cardTemplate: 'topBimestral'
+          years: {
+            "2025": {
+              query: `SELECT AB, AC, AE, AF, AH, AI, AK WHERE AB IS NOT NULL AND (AC IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AH IS NOT NULL OR AI IS NOT NULL OR AK IS NOT NULL) LABEL AB "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            },
+            "2026": {
+              query: `SELECT AU, AV, AX, AY, BA, BB, BD WHERE AU IS NOT NULL AND (AV IS NOT NULL OR AX IS NOT NULL OR AY IS NOT NULL OR BA IS NOT NULL OR BB IS NOT NULL OR BD IS NOT NULL) LABEL AU "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            }
+          }
         }
       },
       "X": {
@@ -864,9 +873,18 @@
         },
         "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
-          query: `SELECT AH, AI, AK, AL, AN, AO, AQ WHERE AH IS NOT NULL AND (AI IS NOT NULL OR AK IS NOT NULL OR AL IS NOT NULL OR AN IS NOT NULL OR AO IS NOT NULL OR AQ IS NOT NULL) LABEL AH "Bimestre"`,
-          chartType: 'Card',
-          cardTemplate: 'topBimestral'
+          years: {
+            "2025": {
+              query: `SELECT AH, AI, AK, AL, AN, AO, AQ WHERE AH IS NOT NULL AND (AI IS NOT NULL OR AK IS NOT NULL OR AL IS NOT NULL OR AN IS NOT NULL OR AO IS NOT NULL OR AQ IS NOT NULL) LABEL AH "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            },
+            "2026": {
+              query: `SELECT AZ, BA, BC, BD, BF, BG, BI WHERE AZ IS NOT NULL AND (BA IS NOT NULL OR BC IS NOT NULL OR BD IS NOT NULL OR BF IS NOT NULL OR BG IS NOT NULL OR BI IS NOT NULL) LABEL AZ "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            }
+          }
         }
       },
       "TikTok": {
@@ -909,9 +927,18 @@
         },
         "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
-          query: `SELECT AI, AJ, AL, AM, AO, AP, AR WHERE AI IS NOT NULL AND (AJ IS NOT NULL OR AL IS NOT NULL OR AM IS NOT NULL OR AO IS NOT NULL OR AP IS NOT NULL OR AR IS NOT NULL) LABEL AI "Bimestre"`,
-          chartType: 'Card',
-          cardTemplate: 'topBimestral'
+          years: {
+            "2025": {
+              query: `SELECT AI, AJ, AL, AM, AO, AP, AR WHERE AI IS NOT NULL AND (AJ IS NOT NULL OR AL IS NOT NULL OR AM IS NOT NULL OR AO IS NOT NULL OR AP IS NOT NULL OR AR IS NOT NULL) LABEL AI "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            },
+            "2026": {
+              query: `SELECT BA, BB, BD, BE, BG, BH, BJ WHERE BA IS NOT NULL AND (BB IS NOT NULL OR BD IS NOT NULL OR BE IS NOT NULL OR BG IS NOT NULL OR BH IS NOT NULL OR BJ IS NOT NULL) LABEL BA "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            }
+          }
         }
       },
       "YouTube": {
@@ -971,9 +998,18 @@
         },
         "Top_Bimestral": {
           label: "Top publicaciones Bimestrales",
-          query: `SELECT AP, AQ, AS, AT, AV, AW, AY WHERE AP IS NOT NULL AND (AQ IS NOT NULL OR AS IS NOT NULL OR AT IS NOT NULL OR AV IS NOT NULL OR AW IS NOT NULL OR AY IS NOT NULL) LABEL AP "Bimestre"`,
-          chartType: 'Card',
-          cardTemplate: 'topBimestral'
+          years: {
+            "2025": {
+              query: `SELECT AP, AQ, AS, AT, AV, AW, AY WHERE AP IS NOT NULL AND (AQ IS NOT NULL OR AS IS NOT NULL OR AT IS NOT NULL OR AV IS NOT NULL OR AW IS NOT NULL OR AY IS NOT NULL) LABEL AP "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            },
+            "2026": {
+              query: `SELECT BH, BI, BK, BL, BN, BO, BQ WHERE BH IS NOT NULL AND (BI IS NOT NULL OR BK IS NOT NULL OR BL IS NOT NULL OR BN IS NOT NULL OR BO IS NOT NULL OR BQ IS NOT NULL) LABEL BH "Bimestre"`,
+              chartType: 'Card',
+              cardTemplate: 'topBimestral'
+            }
+          }
         }
       }
     };
