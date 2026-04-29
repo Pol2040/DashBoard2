@@ -736,6 +736,7 @@
       "Instagram": {
         "anual": {
           label: "Tasa de compromiso total",
+
           query: `SELECT A, B, C, D, E, F, G, H WHERE A IS NOT NULL AND (B IS NOT NULL OR C IS NOT NULL OR D IS NOT NULL) LABEL A "Año", E "Media Interacciones", F "Media Likes", G "Media Comentarios", H "Media Visualizaciones"`,
           chartType: 'ColumnChart',
           chartColumns: [0, 1, 2, 3],
@@ -753,9 +754,18 @@
         },
         "Top_Anual": { //AA
           label: "Top publicaciones anuales",
-          query: `SELECT U, V, W, X, Y, AA WHERE U IS NOT NULL AND (V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR AA IS NOT NULL) LABEL U "Top"`,
-          chartType: 'Card',
-          cardTemplate: 'topAnual'
+          years: {
+            "2025": {
+              query: `SELECT U, V, W, X, Y, AA WHERE U IS NOT NULL AND (V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR AA IS NOT NULL) LABEL U "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            },
+            "2026": {
+              query: `SELECT AM, AN, AO, AP, AQ, AS WHERE AM IS NOT NULL AND (AN IS NOT NULL OR AO IS NOT NULL OR AP IS NOT NULL OR AQ IS NOT NULL OR AS IS NOT NULL) LABEL AM "Top"`,
+              chartType: 'Card',
+              cardTemplate: 'topAnual'
+            }
+          }
         },
         "Top_Bimestral": { //AA
           label: "Top publicaciones Bimestrales",
