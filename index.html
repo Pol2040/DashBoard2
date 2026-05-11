@@ -727,7 +727,7 @@
       "General": {
         "promedios": {
           label: "Promedios generales",
-          query: `SELECT A, B, C, D WHERE A IS NOT NULL AND (B IS NOT NULL OR C IS NOT NULL OR D IS NOT NULL) LABEL A "Año"`,
+          query: `SELECT A, B, C, D WHERE A IS NOT NULL AND (B IS NOT NULL OR C IS NOT NULL OR D IS NOT NULL) LABEL A "Año", B "ObSBA", C "Promedio Mercado", D "Promedio salud"`,
           chartType: 'ColumnChart'
         }
       },
@@ -735,19 +735,19 @@
         "anual": {
           label: "Tasa de compromiso total",
 
-          query: `SELECT A, B, C, D, E, F, G, H WHERE A IS NOT NULL AND (B IS NOT NULL OR C IS NOT NULL OR D IS NOT NULL) LABEL A "Año", E "Media Interacciones", F "Media Likes", G "Media Comentarios", H "Media Visualizaciones"`,
+          query: `SELECT A, B, C, D, E, F, G, H WHERE A IS NOT NULL AND (B IS NOT NULL OR C IS NOT NULL OR D IS NOT NULL) LABEL A "Año", B "ObSBA", C "Promedio Mercado", D "Promedio salud", E "Media Interacciones", F "Media Likes", G "Media Comentarios", H "Media Visualizaciones"`,
           chartType: 'ColumnChart',
           chartColumns: [0, 1, 2, 3],
           auxColumns: [4, 5, 6, 7]
         },
         "bimestral": {
           label: "Tasa de compromiso por bimestres", //AA
-          query: `SELECT M, N, O, P, Q, R, S WHERE M IS NOT NULL AND (N IS NOT NULL OR O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL) LABEL M "Año"`,
+          query: `SELECT M, N, O, P, Q, R, S WHERE M IS NOT NULL AND (N IS NOT NULL OR O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL) LABEL M "Bimestre", N "ObSBA", O "Promedio Mercado", P "Promedio salud", Q "Media Interacciones", R "Media Likes", S "Media Comentarios"`,
           chartType: 'ColumnChart'
         },
         "tipo_post": {
           label: "Anual. Por tipo de publicación",
-          query: `SELECT J, K, L WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL) LABEL J "Año"`,
+          query: `SELECT J, K, L WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL) LABEL J "Año", K "ObSBA", L "Promedio Mercado"`,
           chartType: 'ColumnChart'
         },
         "Top_Anual": { //AA
@@ -791,12 +791,12 @@
         },
         "bimestral": {
           label: "Tasa de compromiso por bimestres.",
-          query: `SELECT M, N, O, P, Q, R, S WHERE M IS NOT NULL AND (N IS NOT NULL OR O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL) LABEL M 'Bimestre'`,
+          query: `SELECT M, N, O, P, Q, R, S WHERE M IS NOT NULL AND (N IS NOT NULL OR O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL) LABEL M "Bimestre", N "ObSBA", O "Promedio Mercado", P "Promedio salud", Q "Media Interacciones", R "Media Likes", S "Media Comentarios"`,
           chartType: 'ColumnChart'
         },
         "tipo_post": {
           label: "Facebook anual. Por tipo de publicación",
-          query: `SELECT I, J, K, L WHERE I IS NOT NULL AND (J IS NOT NULL OR K IS NOT NULL OR L IS NOT NULL) LABEL I "Año"`,
+          query: `SELECT I, J, K, L WHERE I IS NOT NULL AND (J IS NOT NULL OR K IS NOT NULL OR L IS NOT NULL) LABEL I "Año", J "ObSBA", K "Promedio Mercado", L "Promedio salud"`,
           chartType: 'ColumnChart'
         },
         "Top_Anual": { //AA
@@ -840,25 +840,25 @@
         },
         "bimestral": {
           label: "Tasa de compromiso por bimestres",
-          query: `SELECT N, O, P, Q, R, S, T WHERE N IS NOT NULL AND (O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL OR T IS NOT NULL) LABEL N 'Bimestre'`,
+          query: `SELECT N, O, P, Q, R, S, T WHERE N IS NOT NULL AND (O IS NOT NULL OR P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL OR T IS NOT NULL) LABEL N "Bimestre", O "ObSBA", P "Promedio Mercado", Q "Promedio salud", R "Media Interacciones", S "Media Likes", T "Media Comentarios"`,
           chartType: 'ColumnChart'
         },
         "bimestres_tipo": {
           label: "TC por bimestres y tipo",
           years: {
             "2025": {
-              query: `SELECT V, W, X WHERE V IS NOT NULL AND (W IS NOT NULL OR X IS NOT NULL) LABEL V 'Bimestre'`,
+              query: `SELECT V, W, X WHERE V IS NOT NULL AND (W IS NOT NULL OR X IS NOT NULL) LABEL V "Bimestre", W "ObSBA", X "Promedio Mercado"`,
               chartType: 'ColumnChart'
             },
             "2026": {
-              query: `SELECT BL, BM, BN WHERE BL IS NOT NULL AND (BM IS NOT NULL OR BN IS NOT NULL) LABEL BL 'Bimestre'`,
+              query: `SELECT BL, BM, BN WHERE BL IS NOT NULL AND (BM IS NOT NULL OR BN IS NOT NULL) LABEL BL "Bimestre", BM "ObSBA", BN "Promedio Mercado"`,
               chartType: 'ColumnChart'
             }
           }
         },
         "tipo_por_anio": {
           label: "TC por año y tipo",
-          query: `SELECT J, K, L WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL) LABEL J 'Año'`,
+          query: `SELECT J, K, L WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL) LABEL J "Año", K "ObSBA", L "Promedio Mercado"`,
           chartType: 'ColumnChart'
         },
         "Top_Anual": { //AA
@@ -902,18 +902,18 @@
         },
         "bimestral": {
           label: "Tasa de compromiso. Visualizaciones. Bimestral",
-          query: `SELECT O, P, Q, R, S, T, U WHERE O IS NOT NULL AND (P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL OR T IS NOT NULL OR U IS NOT NULL) LABEL O 'Bimestre'`,
+          query: `SELECT O, P, Q, R, S, T, U WHERE O IS NOT NULL AND (P IS NOT NULL OR Q IS NOT NULL OR R IS NOT NULL OR S IS NOT NULL OR T IS NOT NULL OR U IS NOT NULL) LABEL O "Bimestre", P "ObSBA", Q "Promedio Mercado", R "Promedio salud", S "Media Interacciones", T "Media Likes", U "Media Comentarios"`,
           chartType: 'ColumnChart'
         },
         "bimestres_tipo": { //AA
           label: "Tasa de compromiso. Por bimestres",
           years: {
             "2025": {
-              query: `SELECT W, X, Y, Z WHERE W IS NOT NULL AND (X IS NOT NULL OR Y IS NOT NULL OR Z IS NOT NULL) LABEL W 'Bimestre'`,
+              query: `SELECT W, X, Y, Z WHERE W IS NOT NULL AND (X IS NOT NULL OR Y IS NOT NULL OR Z IS NOT NULL) LABEL W "Bimestre", X "ObSBA", Y "Promedio Mercado", Z "Promedio salud"`,
               chartType: 'ColumnChart'
             },
             "2026": {
-              query: `SELECT BL, BM, BN, BO WHERE BL IS NOT NULL AND (BM IS NOT NULL OR BN IS NOT NULL OR BO IS NOT NULL) LABEL BL 'Bimestre'`,
+              query: `SELECT BL, BM, BN, BO WHERE BL IS NOT NULL AND (BM IS NOT NULL OR BN IS NOT NULL OR BO IS NOT NULL) LABEL BL "Bimestre", BM "ObSBA", BN "Promedio Mercado", BO "Promedio salud"`,
               chartType: 'ColumnChart'
             }
           }
@@ -921,7 +921,7 @@
         },
         "tipo_x_anio": {
           label: "Anual. Por tipo de publicación",
-          query: `SELECT J, K, L, M WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL OR M IS NOT NULL) LABEL J 'Año'`,
+          query: `SELECT J, K, L, M WHERE J IS NOT NULL AND (K IS NOT NULL OR L IS NOT NULL OR M IS NOT NULL) LABEL J "Año", K "ObSBA", L "Promedio Mercado", M "Promedio salud"`,
           chartType: 'ColumnChart'
         },
         "Top_Anual": { //AA
@@ -965,40 +965,40 @@
         },
         "bimestral": {
           label: "Tasa de compromiso total. Por bimestres",
-          query: `SELECT T, U, V, W, X, Y, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR Z IS NOT NULL) LABEL T 'Bimestre'`,
+          query: `SELECT T, U, V, W, X, Y, Z WHERE T IS NOT NULL AND (U IS NOT NULL OR V IS NOT NULL OR W IS NOT NULL OR X IS NOT NULL OR Y IS NOT NULL OR Z IS NOT NULL) LABEL T "Bimestre", U "ObSBA", V "Promedio Mercado", W "Promedio salud", X "Media Interacciones", Y "Media Likes", Z "Media Comentarios"`,
           chartType: 'ColumnChart'
         },
         "tc_shorts_bimestral": {
           label: "Tasa de compromiso en SHORTS. Por bimestres",
-          query: `SELECT AA, AB, AC, AD, AE, AF, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AG IS NOT NULL) LABEL AA 'Bimestre'`,
+          query: `SELECT AA, AB, AC, AD, AE, AF, AG WHERE AA IS NOT NULL AND (AB IS NOT NULL OR AC IS NOT NULL OR AD IS NOT NULL OR AE IS NOT NULL OR AF IS NOT NULL OR AG IS NOT NULL) LABEL AA "Bimestre", AB "ObSBA", AC "Promedio Mercado", AD "Promedio salud", AE "Media Interacciones", AF "Media Likes", AG "Media Comentarios"`,
           chartType: 'ColumnChart'
         },
         "tc_bimestres_tipo": {
           label: "Tasa de compromiso. Por bimestres",
           years: {
             "2025": {
-              query: `SELECT Q, R, S WHERE Q IS NOT NULL AND (R IS NOT NULL OR S IS NOT NULL) LABEL Q 'Bimestre'`,
+              query: `SELECT Q, R, S WHERE Q IS NOT NULL AND (R IS NOT NULL OR S IS NOT NULL) LABEL Q "Bimestre", R "ObSBA", S "Promedio Mercado"`,
               chartType: 'ColumnChart'
             },
             "2026": {
-              query: `SELECT BL, BM, BN, BO WHERE BL IS NOT NULL AND (BM IS NOT NULL OR BN IS NOT NULL OR BO IS NOT NULL) LABEL BL 'Bimestre'`,
+              query: `SELECT BL, BM, BN, BO WHERE BL IS NOT NULL AND (BM IS NOT NULL OR BN IS NOT NULL OR BO IS NOT NULL) LABEL BL "Bimestre", BM "ObSBA", BN "Promedio Mercado", BO "Promedio salud"`,
               chartType: 'ColumnChart'
             }
           }
         },
         "tc_shorts_anual": {
           label: "Tasa de compromiso en SHORTS",
-          query: `SELECT H, I, J WHERE H IS NOT NULL AND (I IS NOT NULL OR J IS NOT NULL) LABEL H 'Año'`,
+          query: `SELECT H, I, J WHERE H IS NOT NULL AND (I IS NOT NULL OR J IS NOT NULL) LABEL H "Año", I "ObSBA", J "Promedio Mercado"`,
           chartType: 'ColumnChart'
         },
         "tc_video_anual": {
           label: "Tasa de compromiso en VIDEOS",
-          query: `SELECT N, O, P WHERE N IS NOT NULL AND (O IS NOT NULL OR P IS NOT NULL) LABEL N 'Año'`,
+          query: `SELECT N, O, P WHERE N IS NOT NULL AND (O IS NOT NULL OR P IS NOT NULL) LABEL N "Año", O "ObSBA", P "Promedio Mercado"`,
           chartType: 'ColumnChart'
         },
         "tipo_x_anio": {
           label: "Tasa de compromiso total por tipo de publicación",
-          query: `SELECT K, L, M WHERE K IS NOT NULL AND (L IS NOT NULL OR M IS NOT NULL) LABEL K 'Año'`,
+          query: `SELECT K, L, M WHERE K IS NOT NULL AND (L IS NOT NULL OR M IS NOT NULL) LABEL K "Año", L "ObSBA", M "Promedio Mercado"`,
           chartType: 'ColumnChart'
         },
         "Top_Anual": {
